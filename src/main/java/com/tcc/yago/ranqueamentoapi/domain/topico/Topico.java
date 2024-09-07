@@ -1,11 +1,15 @@
 package com.tcc.yago.ranqueamentoapi.domain.topico;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -21,6 +25,14 @@ public class Topico {
     private String nome;
     private Long idTipo;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
+
+    @UpdateTimestamp
+    private LocalDateTime dataAlteracao;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
     private Set<Votos> votos;
 
