@@ -1,7 +1,10 @@
 package com.tcc.yago.ranqueamentoapi.domain.votos;
 
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
+import com.tcc.yago.ranqueamentoapi.domain.tecnologias.TecnologiasService;
+import com.tcc.yago.ranqueamentoapi.domain.tecnologias.dto.TecnologiaDTO;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.PrimeiroSegundoTerceiroDTO;
+import com.tcc.yago.ranqueamentoapi.domain.votos.dto.VotoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +17,8 @@ import java.util.List;
 public class VotosService {
 
     private final VotosRepository votosRepository;
+
+    private final TecnologiasService tecnologiasService;
 
     public PrimeiroSegundoTerceiroDTO obterTop3TecnologiasPorTopico(Long idTopico) {
         PrimeiroSegundoTerceiroDTO primeiroSegundoTerceiroDTO = new PrimeiroSegundoTerceiroDTO();
@@ -35,5 +40,30 @@ public class VotosService {
 
     public Long obterQtdVotosPorTopico(Long idTopico) {
         return votosRepository.obterQtdVotosPorTopico(idTopico);
+    }
+
+    public List<TecnologiaDTO> obterTecnologiasPorTopico(Long idTopico, Pageable pageable) {
+        return votosRepository.obterTecnologiasPorTopico(idTopico, pageable);
+    }
+
+    public VotoDTO salvar(VotoDTO voto) {
+//        Votos votoSalvo = votosRepository.obterVotoPorTopicoEUsuario(voto.getIdTopico(), voto.getIdUsuario());
+//        Tecnologias tecnologia = tecnologiasService.buscarPorId(voto.getIdTecnologia()).orElse(null);
+//        if (tecnologia != null) {
+//            if (votoSalvo != null && votoSalvo.getId() != null) {
+//                    votoSalvo.setTecnologias(tecnologia);
+//                    votosRepository.save(votoSalvo);
+//            } else {
+//                usuarioservice
+//                topicoService
+//                Votos novoVoto = new Votos();
+//                novoVoto.setTecnologias(tecnologia);
+//                novoVoto.setUsuario();
+//                novoVoto.setTopico();
+//                votosRepository.save(voto);
+//            }
+//        }
+        var votoT = voto;
+        return voto;
     }
 }

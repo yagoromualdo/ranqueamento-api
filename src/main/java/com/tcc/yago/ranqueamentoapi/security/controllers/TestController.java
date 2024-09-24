@@ -1,14 +1,18 @@
 package com.tcc.yago.ranqueamentoapi.security.controllers;
 
+import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
+import com.tcc.yago.ranqueamentoapi.domain.tecnologias.TecnologiasService;
 import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
 import com.tcc.yago.ranqueamentoapi.domain.topico.TopicoService;
+import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicoDTO;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicosListagemDTO;
+import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
+import com.tcc.yago.ranqueamentoapi.domain.votos.VotosService;
+import com.tcc.yago.ranqueamentoapi.domain.votos.dto.VotoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,15 +26,45 @@ public class TestController {
   
   @Autowired
   TopicoService topicoService;
+
+  @Autowired
+  TecnologiasService tecnologiasService;
+
+  @Autowired
+  VotosService votosService;
+
   @GetMapping("/all")
   public String allAccess() {
     return "Public Content.";
   }
 
-  @GetMapping("/listar")
+
+  // Topico
+  @GetMapping("/topico/listar")
   public List<TopicosListagemDTO> listar() {
     return topicoService.listar();
   }
+
+  @GetMapping("/topico/buscarPorId/{id}")
+  public TopicoDTO listar(@PathVariable Long id) {
+    return topicoService.buscarPorId(id);
+  }
+
+  // ---
+
+  // Tecnologias
+  @GetMapping("/tecnologias/listar/{tipo}")
+  public List<Tecnologias> listarPorTipo(@PathVariable Long tipo) {
+    return tecnologiasService.listarPorTipo(tipo);
+  }
+  // ---
+
+  // Votação
+  @PostMapping("/votacao/votar")
+  public VotoDTO votar(@RequestBody VotoDTO voto) {
+    return votosService.salvar(voto);
+  }
+  // ---
 
   @GetMapping("/user")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
