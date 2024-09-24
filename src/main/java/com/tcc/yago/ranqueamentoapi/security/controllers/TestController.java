@@ -61,7 +61,7 @@ public class TestController {
 
   // Votação
   @PostMapping("/votacao/votar")
-  public VotoDTO votar(@RequestBody VotoDTO voto) {
+  public Votos votar(@RequestBody VotoDTO voto) {
     return votosService.salvar(voto);
   }
   // ---

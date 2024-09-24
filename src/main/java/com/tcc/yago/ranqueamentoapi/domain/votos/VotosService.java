@@ -3,8 +3,13 @@ package com.tcc.yago.ranqueamentoapi.domain.votos;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.TecnologiasService;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.dto.TecnologiaDTO;
+import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
+import com.tcc.yago.ranqueamentoapi.domain.topico.TopicoRepository;
+import com.tcc.yago.ranqueamentoapi.domain.topico.TopicoService;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.PrimeiroSegundoTerceiroDTO;
 import com.tcc.yago.ranqueamentoapi.domain.votos.dto.VotoDTO;
+import com.tcc.yago.ranqueamentoapi.security.user.User;
+import com.tcc.yago.ranqueamentoapi.security.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +24,10 @@ public class VotosService {
     private final VotosRepository votosRepository;
 
     private final TecnologiasService tecnologiasService;
+
+    private final UserService userService;
+
+    private final TopicoRepository topicoRepository;
 
     public PrimeiroSegundoTerceiroDTO obterTop3TecnologiasPorTopico(Long idTopico) {
         PrimeiroSegundoTerceiroDTO primeiroSegundoTerceiroDTO = new PrimeiroSegundoTerceiroDTO();
@@ -46,24 +55,31 @@ public class VotosService {
         return votosRepository.obterTecnologiasPorTopico(idTopico, pageable);
     }
 
-    public VotoDTO salvar(VotoDTO voto) {
-//        Votos votoSalvo = votosRepository.obterVotoPorTopicoEUsuario(voto.getIdTopico(), voto.getIdUsuario());
-//        Tecnologias tecnologia = tecnologiasService.buscarPorId(voto.getIdTecnologia()).orElse(null);
-//        if (tecnologia != null) {
-//            if (votoSalvo != null && votoSalvo.getId() != null) {
-//                    votoSalvo.setTecnologias(tecnologia);
-//                    votosRepository.save(votoSalvo);
-//            } else {
-//                usuarioservice
-//                topicoService
-//                Votos novoVoto = new Votos();
-//                novoVoto.setTecnologias(tecnologia);
-//                novoVoto.setUsuario();
-//                novoVoto.setTopico();
-//                votosRepository.save(voto);
-//            }
-//        }
-        var votoT = voto;
-        return voto;
+    public Votos salvar(VotoDTO voto) {
+        try {
+            Votos votoSalvo = votosRepository.obterVotoPorTopicoEUsuario(voto.getIdTopico(), voto.getIdUsuario());
+            Tecnologias tecnologia = tecnologiasService.buscarPorId(voto.getIdTecnologia()).orElse(null);
+            if (tecnologia != null) {
+                if (votoSalvo != null && votoSalvo.getId() != null) {
+                    votoSalvo.setTecnologias(tecnologia);
+                    return votosRepository.save(votoSalvo);
+                } else {
+                    User usuario = userService.findById(voto.getIdUsuario());
+                    Topico topico = topicoRepository.findById(voto.getIdTopico()).orElse(null);
+                    if (usuario != null && topico != null) {
+                        Votos novoVoto = new Votos();
+                        novoVoto.setTecnologias(tecnologia);
+                        novoVoto.setUsuario(usuario);
+                        novoVoto.setTopico(topico);
+                        return votosRepository.save(novoVoto);
+                    }
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar salvar voto: " + e.getMessage());
+            throw e;
+        }
+
     }
 }

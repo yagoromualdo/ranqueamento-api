@@ -65,4 +65,8 @@ public class TopicoService {
 
         return topicoInfosGerais;
     }
+
+    public Topico findById(Long id) {
+        return topicoRepository.findById(id).orElse(null);
+    }
 }

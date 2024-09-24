@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import com.tcc.yago.ranqueamentoapi.security.role.Role;
 import jakarta.persistence.*;
@@ -58,6 +59,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Votos> votos;
 

@@ -30,12 +30,10 @@ public class Votos {
     @JoinColumn(name = "usuario_id", nullable = false)
     private User usuario;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "topico_id", nullable = false)
     private Topico topico;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tecnologia_id", nullable = false)
     private Tecnologias tecnologias;
