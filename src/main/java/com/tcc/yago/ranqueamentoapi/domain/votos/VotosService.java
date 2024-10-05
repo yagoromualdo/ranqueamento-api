@@ -82,4 +82,16 @@ public class VotosService {
         }
 
     }
+
+    public VotoDTO obterVotoPorTopicoEUsuario(VotoDTO voto) {
+        Votos votoResult = votosRepository.obterVotoPorTopicoEUsuario(voto.getIdTopico(), voto.getIdUsuario());
+        VotoDTO votoRetorno = new VotoDTO();
+        if (votoResult != null) {
+            votoRetorno.setId(votoResult.getId());
+            votoRetorno.setIdTopico(votoResult.getTopico().getId());
+            votoRetorno.setIdUsuario(votoResult.getUsuario().getId());
+            votoRetorno.setIdTecnologia(votoResult.getTecnologias().getId());
+        }
+        return votoRetorno;
+    }
 }

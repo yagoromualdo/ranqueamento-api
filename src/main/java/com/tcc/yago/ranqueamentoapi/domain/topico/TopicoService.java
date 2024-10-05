@@ -3,8 +3,13 @@ package com.tcc.yago.ranqueamentoapi.domain.topico;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.dto.TecnologiaDTO;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicoDTO;
+import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicoSalvarDTO;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicosListagemDTO;
+import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import com.tcc.yago.ranqueamentoapi.domain.votos.VotosService;
+import com.tcc.yago.ranqueamentoapi.domain.votos.dto.VotoDTO;
+import com.tcc.yago.ranqueamentoapi.security.user.User;
+import com.tcc.yago.ranqueamentoapi.security.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,9 @@ public class TopicoService {
     private final TopicoRepository topicoRepository;
 
     private final VotosService votosService;
+
+    private final UserService userService;
+
     public List<TopicosListagemDTO> listar() {
         List<TopicosListagemDTO> topicosListagemDTOList = new ArrayList<>();
         List<Topico> topicos = new ArrayList<>();
@@ -68,5 +76,23 @@ public class TopicoService {
 
     public Topico findById(Long id) {
         return topicoRepository.findById(id).orElse(null);
+    }
+
+    public Topico salvar(TopicoSalvarDTO topico) {
+        try {
+            User usuario = userService.findById(topico.getIdUsuario());
+            if (usuario != null) {
+                Topico novoTopico = new Topico();
+                novoTopico.setUsuario(usuario);
+                novoTopico.setCategoria(topico.getCategoria());
+                novoTopico.setIdTipo(topico.getIdTipo());
+                novoTopico.setNome(topico.getNome());
+                return topicoRepository.save(novoTopico);
+            }
+            return null;
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar salvar o tópico: " + e.getMessage());
+            throw e;
+        }
     }
 }

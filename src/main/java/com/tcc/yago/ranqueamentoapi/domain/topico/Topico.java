@@ -2,6 +2,7 @@ package com.tcc.yago.ranqueamentoapi.domain.topico;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
+import com.tcc.yago.ranqueamentoapi.security.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Topico {
     private Long id;
     private String nome;
     private Long idTipo;
+    private Long categoria;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -35,5 +37,10 @@ public class Topico {
     @JsonIgnore
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
     private Set<Votos> votos;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private User usuario;
 
 }

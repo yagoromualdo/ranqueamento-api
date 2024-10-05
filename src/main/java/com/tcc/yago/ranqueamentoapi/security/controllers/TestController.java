@@ -5,6 +5,7 @@ import com.tcc.yago.ranqueamentoapi.domain.tecnologias.TecnologiasService;
 import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
 import com.tcc.yago.ranqueamentoapi.domain.topico.TopicoService;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicoDTO;
+import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicoSalvarDTO;
 import com.tcc.yago.ranqueamentoapi.domain.topico.dto.TopicosListagemDTO;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import com.tcc.yago.ranqueamentoapi.domain.votos.VotosService;
@@ -40,6 +41,12 @@ public class TestController {
 
 
   // Topico
+
+  @PostMapping("/topico/salvar")
+  public Topico salvar(@RequestBody TopicoSalvarDTO topico) {
+    return topicoService.salvar(topico);
+  }
+
   @GetMapping("/topico/listar")
   public List<TopicosListagemDTO> listar() {
     return topicoService.listar();
@@ -63,6 +70,11 @@ public class TestController {
   @PostMapping("/votacao/votar")
   public Votos votar(@RequestBody VotoDTO voto) {
     return votosService.salvar(voto);
+  }
+
+  @PostMapping("/votacao/obterVotoPorTopicoEUsuario")
+  public VotoDTO obterVotoPorTopicoEUsuario(@RequestBody VotoDTO voto) {
+    return votosService.obterVotoPorTopicoEUsuario(voto);
   }
   // ---
 
