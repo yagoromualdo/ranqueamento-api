@@ -28,10 +28,10 @@ public class TopicoService {
 
     private final UserService userService;
 
-    public List<TopicosListagemDTO> listar() {
+    public List<TopicosListagemDTO> listarTopicosPorVotacao() {
         List<TopicosListagemDTO> topicosListagemDTOList = new ArrayList<>();
         List<Topico> topicos = new ArrayList<>();
-        topicos = topicoRepository.listarTopicos();
+        topicos = topicoRepository.listarTopicosPorVotacao();
         topicos.forEach(t -> {
             TopicosListagemDTO topicoListagem = new TopicosListagemDTO();
             topicoListagem.setTopico(t);
@@ -82,12 +82,15 @@ public class TopicoService {
         try {
             User usuario = userService.findById(topico.getIdUsuario());
             if (usuario != null) {
-                Topico novoTopico = new Topico();
-                novoTopico.setUsuario(usuario);
-                novoTopico.setCategoria(topico.getCategoria());
-                novoTopico.setIdTipo(topico.getIdTipo());
-                novoTopico.setNome(topico.getNome());
-                return topicoRepository.save(novoTopico);
+                List<Long> topicosDoUsuario = topicoRepository.listarTopicosPorIdUsuario(topico.getIdUsuario());
+                if(topicosDoUsuario.size() < 10) {
+                    Topico novoTopico = new Topico();
+                    novoTopico.setUsuario(usuario);
+                    novoTopico.setCategoria(topico.getCategoria());
+                    novoTopico.setIdTipo(topico.getIdTipo());
+                    novoTopico.setNome(topico.getNome());
+                    return topicoRepository.save(novoTopico);
+                }
             }
             return null;
         } catch (Exception e) {

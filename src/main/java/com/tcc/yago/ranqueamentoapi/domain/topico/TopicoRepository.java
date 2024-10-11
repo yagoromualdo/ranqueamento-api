@@ -9,6 +9,10 @@ import java.util.List;
 @Repository
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
-    @Query("SELECT T FROM Topico T ORDER BY T.dataCriacao DESC")
-    List<Topico> listarTopicos();
+    @Query("SELECT T FROM Topico T WHERE T.categoria = 1 ORDER BY T.dataCriacao DESC")
+    List<Topico> listarTopicosPorVotacao();
+
+
+    @Query("SELECT T.id FROM Topico T WHERE T.usuario.id  = :idUsuario")
+    List<Long> listarTopicosPorIdUsuario(Long idUsuario);
 }

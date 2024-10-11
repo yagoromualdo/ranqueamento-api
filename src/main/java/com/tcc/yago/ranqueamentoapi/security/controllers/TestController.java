@@ -47,9 +47,9 @@ public class TestController {
     return topicoService.salvar(topico);
   }
 
-  @GetMapping("/topico/listar")
-  public List<TopicosListagemDTO> listar() {
-    return topicoService.listar();
+  @GetMapping("/topico/listarTopicosPorVotacao")
+  public List<TopicosListagemDTO> listarTopicosPorVotacao() {
+    return topicoService.listarTopicosPorVotacao();
   }
 
   @GetMapping("/topico/buscarPorId/{id}")
