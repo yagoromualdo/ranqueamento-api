@@ -40,6 +40,10 @@ public class User {
 
     @NotBlank
     @Size(max = 50)
+    private String apelido;
+
+    @NotBlank
+    @Size(max = 50)
     @Email
     private String email;
 
@@ -68,11 +72,11 @@ public class User {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Topico> topico;
 
-    public User(String username, String email, String password) {
+    public User(String username, String apelido, String email, String password) {
         this.username = username;
+        this.apelido = apelido;
         this.email = email;
         this.password = password;
     }
-
 
 }

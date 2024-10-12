@@ -77,17 +77,18 @@ public class AuthController {
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Erro: Nome de usuário já foi usado!"));
+      return ResponseEntity.badRequest().body(new MessageResponse("Erro: Esse nome de usuário já está em uso!"));
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Erro: Esse e-mail já está em uso!"));
     }
 
-    // Create new user's account
-    User user = new User(signUpRequest.getUsername(),
-                         signUpRequest.getEmail(),
-                         encoder.encode(signUpRequest.getPassword()));
+      // Create new user's account
+      User user = new User(signUpRequest.getUsername(),
+              signUpRequest.getApelido(),
+              signUpRequest.getEmail(),
+              encoder.encode(signUpRequest.getPassword()));
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -138,6 +139,7 @@ public class AuthController {
 
       // Cria a conta do novo usuário
       User user = new User(signUpRequest.getUsername(),
+              signUpRequest.getApelido(),
               signUpRequest.getEmail(),
               encoder.encode(signUpRequest.getPassword()));
 
