@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tcc.yago.ranqueamentoapi.domain.comentario.Comentario;
 import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import com.tcc.yago.ranqueamentoapi.security.role.Role;
@@ -71,6 +72,10 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Topico> topico;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<Comentario> comentario;
 
     public User(String username, String apelido, String email, String password) {
         this.username = username;

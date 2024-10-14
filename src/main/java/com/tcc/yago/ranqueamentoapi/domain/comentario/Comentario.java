@@ -1,8 +1,8 @@
-package com.tcc.yago.ranqueamentoapi.domain.topico;
+package com.tcc.yago.ranqueamentoapi.domain.comentario;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tcc.yago.ranqueamentoapi.domain.comentario.Comentario;
-import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
+import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
+import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
 import com.tcc.yago.ranqueamentoapi.security.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,21 +12,21 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
-@Table(name = "topico")
+@Table(name = "comentario")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Topico {
+public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private Long idTipo;
-    private Long categoria;
+
+    private String comentario;
+
+    private String tipoDeComentario;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -35,17 +35,16 @@ public class Topico {
     @UpdateTimestamp
     private LocalDateTime dataAlteracao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
-    private Set<Votos> votos;
-
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "topico_id", nullable = false)
+    private Topico topico;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
     private User usuario;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
-    private Set<Comentario> comentario;
+    @ManyToOne
+    @JoinColumn(name = "tecnologia_id")
+    private Tecnologias tecnologias;
 
 }

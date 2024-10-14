@@ -1,6 +1,7 @@
 package com.tcc.yago.ranqueamentoapi.domain.tecnologias;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tcc.yago.ranqueamentoapi.domain.comentario.Comentario;
 import com.tcc.yago.ranqueamentoapi.domain.votos.Votos;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -36,4 +37,8 @@ public class Tecnologias {
     @JsonIgnore
     @OneToMany(mappedBy = "tecnologias", cascade = CascadeType.ALL)
     private Set<Votos> votos;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tecnologias", cascade = CascadeType.ALL)
+    private Set<Comentario> comentario;
 }

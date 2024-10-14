@@ -20,4 +20,6 @@ public class TecnologiasService {
     public Optional<Tecnologias> buscarPorId(Long id) {
         return tecnologiasRepository.findById(id);
     }
+
+    public Tecnologias findById(Long id) { return  tecnologiasRepository.findById(id).orElse(null); }
 }

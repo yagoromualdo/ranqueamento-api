@@ -1,5 +1,8 @@
 package com.tcc.yago.ranqueamentoapi.security.controllers;
 
+import com.tcc.yago.ranqueamentoapi.domain.comentario.Comentario;
+import com.tcc.yago.ranqueamentoapi.domain.comentario.ComentarioService;
+import com.tcc.yago.ranqueamentoapi.domain.comentario.dto.ComentarioParaSalvarDTO;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
 import com.tcc.yago.ranqueamentoapi.domain.tecnologias.TecnologiasService;
 import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
@@ -33,6 +36,9 @@ public class TestController {
 
   @Autowired
   VotosService votosService;
+
+  @Autowired
+  ComentarioService comentarioService;
 
   @GetMapping("/all")
   public String allAccess() {
@@ -75,6 +81,13 @@ public class TestController {
   @PostMapping("/votacao/obterVotoPorTopicoEUsuario")
   public VotoDTO obterVotoPorTopicoEUsuario(@RequestBody VotoDTO voto) {
     return votosService.obterVotoPorTopicoEUsuario(voto);
+  }
+  // ---
+
+  // Comentário
+  @PostMapping("/comentario/salvarComentario")
+  public Comentario salvarComentario(@RequestBody ComentarioParaSalvarDTO comentario) {
+    return comentarioService.salvarComentario(comentario);
   }
   // ---
 
