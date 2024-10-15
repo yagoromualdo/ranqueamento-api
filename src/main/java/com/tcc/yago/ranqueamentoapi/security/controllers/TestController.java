@@ -89,6 +89,12 @@ public class TestController {
   public Comentario salvarComentario(@RequestBody ComentarioParaSalvarDTO comentario) {
     return comentarioService.salvarComentario(comentario);
   }
+
+  @GetMapping("/comentario/listarPorTopico/{idTopico}")
+  public List<Comentario> listarPorTopico(@PathVariable String idTopico) {
+    return comentarioService.listarPorTopico(idTopico);
+  }
+
   // ---
 
   @GetMapping("/user")

@@ -5,6 +5,7 @@ import com.tcc.yago.ranqueamentoapi.domain.tecnologias.Tecnologias;
 import com.tcc.yago.ranqueamentoapi.domain.topico.Topico;
 import com.tcc.yago.ranqueamentoapi.security.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(max = 4000)
     private String comentario;
 
     private String tipoDeComentario;

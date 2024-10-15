@@ -10,6 +10,7 @@ import com.tcc.yago.ranqueamentoapi.security.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +48,21 @@ public class ComentarioService {
             return null;
         } catch (Exception e) {
             System.err.println("Erro ao tentar salvar o comentário: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public List<Comentario> listarPorTopico(String idTopico) {
+        try {
+            List<Comentario> listaDeComentarios = new ArrayList<>();
+            Long idTopicoLong = Long.parseLong(idTopico);
+            Topico topico = topicoService.findById(idTopicoLong);
+            if (topico != null) {
+                listaDeComentarios = comentarioRepository.listarPorTopico(idTopicoLong);
+            }
+            return listaDeComentarios;
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar listar comentários " + e.getMessage());
             throw e;
         }
     }
